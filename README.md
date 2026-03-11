@@ -1,77 +1,77 @@
 # Sanyark Leave Management System – Backend
 
-This repository contains the **Spring Boot backend API** for the Sanyark Leave Management System.
+This repository contains the Spring Boot backend API for the Sanyark Leave Management System.
 
 The system allows employees to apply for leave, managers to review and approve requests, and provides dashboards, analytics, notifications, and calendar views.
 
----
+------------------------------------------------------------
 
-# Technology Stack
+Technology Stack
 
-Backend Framework:
+Backend Framework
 - Java 17
 - Spring Boot 3.3.5
 
-Security:
+Security
 - Spring Security
 - JWT Authentication
 
-Database:
+Database
 - MySQL
 - Flyway (Database migrations)
 
-Persistence:
+Persistence
 - Spring Data JPA
 - Hibernate
 
-Build Tool:
+Build Tool
 - Maven
 
-Other Libraries:
+Other Libraries
 - Lombok
 - Bean Validation (Jakarta Validation)
 
----
+------------------------------------------------------------
 
-# Project Architecture
+Project Architecture
 
-The backend follows a **layered architecture** to maintain clean separation of concerns.
+The backend follows a layered architecture to maintain clean separation of concerns.
 
 controller → service → repository → database
 
+Main Layers
 
-### Main Layers
-
-**Controller**
+Controller  
 Handles REST API endpoints.
 
-**Service**
+Service  
 Contains business logic.
 
-**Repository**
+Repository  
 Handles database interaction using Spring Data JPA.
 
-**Entity**
+Entity  
 JPA entities mapped to database tables.
 
-**DTO**
+DTO  
 Data transfer objects used for request/response separation.
 
-**Security**
+Security  
 JWT authentication and request filtering.
 
-**Exception**
+Exception  
 Global exception handling and custom exceptions.
 
----
+------------------------------------------------------------
 
-# Main Features
+Main Features
 
-### Authentication
+Authentication
 - JWT based authentication
 - Employee and manager login
 
-### Leave Management
+Leave Management
+
 Employees can:
 - Apply for leave
 - View leave history
@@ -82,26 +82,26 @@ Managers can:
 - Reject leave with comments
 - View team leave requests
 
-### Leave Balance System
+Leave Balance System
 Tracks:
 - Total leaves
 - Used leaves
 - Pending leaves
 - Remaining leaves
 
-### Holiday Management
+Holiday Management
 Supports:
 - Public holidays
 - Company optional holidays
 - Company events
 
-### Calendar System
+Calendar System
 Provides:
 - Company calendar
 - Personal leave calendar
 - Team leave calendar
 
-### Dashboards
+Dashboards
 
 Employee dashboard shows:
 - Leave balance
@@ -114,50 +114,53 @@ Manager dashboard shows:
 - Employees currently on leave
 - Leave statistics
 
-### Notifications
+Notifications
+
 In-app notification system for:
 - Leave applied
 - Leave approved
 - Leave rejected
 - Leave cancelled
 
-### Analytics
+Analytics
+
 Manager analytics include:
 - Monthly leave trends
 - Top leave takers
 - Employees currently on leave
 
----
+------------------------------------------------------------
 
-# Database Migrations
+Database Migrations
 
-The project uses **Flyway** for database migrations.
+The project uses Flyway for database migrations.
 
 Migration files are located at:
+
 src/main/resources/db/migration
 
 Example migrations:
-V1__initial_schema.sql
-V2__add_indexes.sql
-V3__seed_indian_holidays.sql
 
+V1__initial_schema.sql  
+V2__add_indexes.sql  
+V3__seed_indian_holidays.sql  
 
-Hibernate schema generation is disabled:
+Hibernate schema generation is disabled using:
+
 spring.jpa.hibernate.ddl-auto=validate
 
-This ensures Flyway remains the **single source of truth for schema changes**.
+This ensures Flyway remains the single source of truth for schema changes.
 
----
+------------------------------------------------------------
 
-# Setup Instructions
+Setup Instructions
 
-## 1. Clone the Repository
-git clone https://github.com/<your-username>/sanyark-leave-management-backend.git
+1. Clone the Repository
+
+git clone https://github.com/HARSHKHONDALAY/sanyark-leave-management-backend.git  
 cd sanyark-leave-management-backend
 
----
-
-## 2. Install Dependencies
+2. Install Dependencies
 
 Ensure the following are installed:
 
@@ -165,73 +168,68 @@ Ensure the following are installed:
 - Maven
 - MySQL
 
----
+3. Create Database
 
-## 3. Create Database
-
-Create a database in MySQL:
 CREATE DATABASE leave_management;
 
----
-
-## 4. Configure Environment
+4. Configure Environment
 
 The project uses Spring profiles.
 
-### Development Profile
+Development Profile File:
 
-File:
-application-dev.properties
+src/main/resources/application-dev.properties
 
 Example local configuration:
-spring.datasource.url=jdbc:mysql://localhost:3306/leave_management
-spring.datasource.username=root
-spring.datasource.password=your_password
 
----
+spring.datasource.url=jdbc:mysql://localhost:3306/leave_management  
+spring.datasource.username=root  
+spring.datasource.password=your_password  
 
-## 5. Run the Application
+5. Run the Application
 
-Using Maven wrapper:
 ./mvnw spring-boot:run
 
 The server will start at:
+
 http://localhost:8080
 
----
+------------------------------------------------------------
 
-# Production Configuration
+Production Configuration
 
 Production uses environment variables.
 
 Required variables:
-SPRING_PROFILES_ACTIVE=prod
-DB_URL=jdbc:mysql://<host>:3306/leave_management
-DB_USERNAME=<db_user>
-DB_PASSWORD=<db_password>
-APP_JWT_SECRET=<jwt_secret>
 
-Optional:
-APP_JWT_EXPIRATION=86400000
-SERVER_PORT=8080
+SPRING_PROFILES_ACTIVE=prod  
+DB_URL=jdbc:mysql://<host>:3306/leave_management  
+DB_USERNAME=<db_user>  
+DB_PASSWORD=<db_password>  
+APP_JWT_SECRET=<jwt_secret>  
 
----
+Optional variables:
 
-# Design Decisions and Assumptions
+APP_JWT_EXPIRATION=86400000  
+SERVER_PORT=8080  
 
-### Flyway over Hibernate schema generation
+------------------------------------------------------------
+
+Design Decisions and Assumptions
+
+Flyway over Hibernate schema generation  
 Database schema is controlled via Flyway migrations instead of Hibernate auto updates to ensure consistency across environments.
 
-### JWT Authentication
+JWT Authentication  
 JWT tokens are used to maintain stateless authentication between frontend and backend services.
 
-### Layered Architecture
+Layered Architecture  
 The application follows a layered architecture to improve maintainability and separation of concerns.
 
-### DTO Usage
+DTO Usage  
 DTOs are used instead of exposing entities directly through APIs to maintain API stability and security.
 
-### Role-based Access
+Role-based Access  
 Two main roles are supported:
 
 - EMPLOYEE
@@ -239,9 +237,16 @@ Two main roles are supported:
 
 Certain endpoints are restricted based on role using Spring Security.
 
----
+Assumptions
 
-# Future Improvements
+- The backend is consumed by a separate frontend layer.
+- MySQL is the primary relational database.
+- Flyway migrations are the only approved way to evolve the schema.
+- Production secrets such as database credentials and JWT secret are provided through environment variables and are not committed to source control.
+
+------------------------------------------------------------
+
+Future Improvements
 
 Possible enhancements:
 
@@ -251,8 +256,8 @@ Possible enhancements:
 - Admin panel
 - Docker containerization
 
----
+------------------------------------------------------------
 
-# Author
+Author
 
 Harsh Khondalay
